@@ -34,6 +34,7 @@ CATEGORIES = {
     ],
     "Figure & Design": [".fig"],
     "Network (Cisco Packet Tracer)": [".pkt", ".pka"],
+    "Markdown": [".md", ".markdown"],
     "Code & Data": [
         ".c",
         ".cpp",
