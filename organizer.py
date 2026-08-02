@@ -75,7 +75,7 @@ CATEGORIES = {
 # Ekstensi yang diabaikan (misal: file yang sedang proses download)
 IGNORE_EXTENSIONS = [".crdownload", ".tmp", ".part"]
 
-# 3. Daftar nama folder sistem/kategori agar tidak ikut dipindahkan ke dalam "Folders & Projects"
+# 3. Daftar nama folder sistem/kategori yang dikelola skrip
 SYSTEM_FOLDERS = list(CATEGORIES.keys()) + ["Others", "Folders & Projects"]
 
 
@@ -84,7 +84,7 @@ def get_category(extension):
     for category, extensions in CATEGORIES.items():
         if extension.lower() in extensions:
             return category
-    return "Others"  # Untuk file dengan ekstensi di luar daftar
+    return "Others"
 
 
 def get_unique_path(destination_path):
@@ -99,16 +99,47 @@ def get_unique_path(destination_path):
     return new_path
 
 
+def reset_existing_categories():
+    """FITUR REORGANIZE: Mengeluarkan semua file dari folder kategori lama
+
+    ke Downloads utama agar bisa diklasifikasikan ulang dengan aturan baru.
+    """
+    print("Memeriksa dan menata ulang folder kategori yang sudah ada...")
+    for folder_name in list(CATEGORIES.keys()) + ["Others"]:
+        cat_dir = DOWNLOADS_DIR / folder_name
+        if cat_dir.exists() and cat_dir.is_dir():
+            # Pindahkan semua file dari dalam subfolder keluar ke Downloads
+            for file_item in cat_dir.iterdir():
+                if file_item.is_file():
+                    dest_path = get_unique_path(DOWNLOADS_DIR / file_item.name)
+                    try:
+                        shutil.move(str(file_item), str(dest_path))
+                    except Exception as e:
+                        print(
+                            f"[!] Gagal mengeluarkan {file_item.name} dari {folder_name}: {e}"
+                        )
+
+            # Hapus folder kategori jika sudah kosong
+            try:
+                cat_dir.rmdir()
+            except OSError:
+                pass  # Abaikan jika folder masih berisi item lain (misal subfolder)
+
+
 def organize_downloads():
     if not DOWNLOADS_DIR.exists():
         print(f"Folder tidak ditemukan: {DOWNLOADS_DIR}")
         return
 
     print(f"Memulai perapihan di: {DOWNLOADS_DIR}\n" + "-" * 40)
+
+    # 1. Tarik keluar dulu semua file dari folder kategori lama (Reorganize All)
+    reset_existing_categories()
+
     moved_count = 0
 
-    # Iterasi semua item di folder Downloads
-    for item in DOWNLOADS_DIR.iterdir():
+    # 2. Iterasi dan klasifikasikan ulang semua item di folder Downloads
+    for item in list(DOWNLOADS_DIR.iterdir()):
         # Lewati file skrip ini sendiri jika disimpan di folder Downloads
         if item.name == Path(__file__).name:
             continue
@@ -142,7 +173,7 @@ def organize_downloads():
             print(f"[X] Gagal memindahkan {item.name}: {e}")
 
     print("-" * 40)
-    print(f"Selesai! {moved_count} item berhasil dirapikan.")
+    print(f"Selesai! {moved_count} item berhasil dirapikan ulang.")
 
 
 if __name__ == "__main__":
