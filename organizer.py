@@ -5,19 +5,8 @@ from pathlib import Path
 # 1. Tentukan path folder Downloads (Otomatis mendeteksi user OS saat ini)
 DOWNLOADS_DIR = Path.home() / "Downloads"
 
-# 2. Pemetaan kategori folder berdasarkan ekstensi filenya
+# 2. Pemetaan kategori folder dan ekstensi filenya
 CATEGORIES = {
-    "PDF & Documents": [
-        ".pdf",
-        ".doc",
-        ".docx",
-        ".xls",
-        ".xlsx",
-        ".ppt",
-        ".pptx",
-        ".txt",
-        ".csv",
-    ],
     "Images": [
         ".jpg",
         ".jpeg",
@@ -27,6 +16,48 @@ CATEGORIES = {
         ".webp",
         ".bmp",
         ".ico",
+        ".jfif",
+        ".cr2",
+        ".heic",
+    ],
+    "Adobe Creative Suite": [
+        ".pdf",
+        ".psd",
+        ".psb",
+        ".ai",
+        ".eps",
+        ".prproj",
+        ".aep",
+        ".indd",
+        ".xd",
+        ".lrcat",
+    ],
+    "Figure & Design": [".fig"],
+    "Network (Cisco Packet Tracer)": [".pkt", ".pka"],
+    "Code & Data": [
+        ".c",
+        ".cpp",
+        ".java",
+        ".class",
+        ".jar",
+        ".py",
+        ".js",
+        ".css",
+        ".json",
+        ".xml",
+        ".sql",
+        ".ipynb",
+    ],
+    "Link Web": [".url", ".htm", ".html", ".mhtml"],
+    "Documents (Office)": [
+        ".doc",
+        ".docx",
+        ".xls",
+        ".xlsx",
+        ".ppt",
+        ".pptx",
+        ".txt",
+        ".csv",
     ],
     "Installers & Apps": [".exe", ".msi", ".dmg", ".pkg", ".apk"],
     "Archives": [".zip", ".rar", ".7z", ".tar", ".gz", ".iso"],
@@ -38,16 +69,6 @@ CATEGORIES = {
         ".mp3",
         ".wav",
         ".flac",
-    ],
-    "Code & Data": [
-        ".py",
-        ".js",
-        ".html",
-        ".css",
-        ".json",
-        ".xml",
-        ".sql",
-        ".ipynb",
     ],
 }
 
