@@ -21,7 +21,6 @@ CATEGORIES = {
         ".heic",
     ],
     "Adobe Creative Suite": [
-        ".pdf",
         ".psd",
         ".psb",
         ".ai",
@@ -51,6 +50,7 @@ CATEGORIES = {
     ],
     "Link Web": [".url", ".htm", ".html", ".mhtml"],
     "Documents (Office)": [
+        ".pdf",
         ".doc",
         ".docx",
         ".xls",
